@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <title>Panel recepcjonisty</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/w3.css">
+    <link rel="stylesheet" href="/css/mainStylesheet.css">
+
+    <script src="/js/w3.js"></script>
+    <script src="/js/customScripts.js"></script>
+</head>
+<body>
+
+<div class="sidenav">
+    <a href="/receptionistsPanel/addPatient">Dodaj pacjenta</a>
+    <a href="/receptionistsPanel/listOfPatients">Lista pacjentów</a>
+    <a href="/receptionistsPanel/bookExamination">Zarezerwuj badanie</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+
+<div class="content">
+    <p>
+        <input oninput="w3.filterHTML('#myTable', '.item', this.value)" class="w3-input" placeholder="Szukaj...">
+    </p>
+
+    <table id="myTable" class="w3-table-all w3-hoverable" >
+        <thead style="cursor: pointer">
+        <tr>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(1)')" >Badanie</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(2)')" >Sala</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(3)')" >Data</th>
+            <th>Usuń</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="item" th:each="examination, iterStar: ${list}">
+            <td th:text="${examination.examinationDTO.getName()}"></td>
+            <td th:text="${examination.deviceDTO.getRoom()}"></td>
+            <td th:text="${#temporals.format(examination.dateTimeStart, 'dd/MM/yyyy HH:mm')}"></td>
+            <td><a onclick="return confirm('Czy chcesz usunąć wybrany obiekt?')" th:href="@{/receptionistsPanel/deleteExamination/{chosenIndex}(chosenIndex=${iterStar.index})}" ><button><img src="/icons/delete.png" ></button></a></td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

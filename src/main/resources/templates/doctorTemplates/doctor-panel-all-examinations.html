@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <title>Lista typów</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/css/mainStylesheet.css">
+    <link rel="stylesheet" href="/css/w3.css">
+
+    <script src="/js/w3.js"></script>
+    <script src="/js/customScripts.js"></script>
+
+
+</head>
+<body>
+
+<div class="sidenav">
+    <a href="/doctorsPanel/addType">Dodaj typ badania</a>
+    <a href="/doctorsPanel/listOfTypes">Lista typów badań</a>
+    <a href="/doctorsPanel/addExamination">Dodaj badanie</a>
+    <a href="/doctorsPanel/listOfExaminations">Lista badań</a>
+    <a href="/doctorsPanel/listOfDevices">Lista urządzeń</a>
+    <a href="/doctorsPanel/addExaminationToDevice">Dodaj badanie do urządzenia</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+<div class="content">
+    <p>
+        <input oninput="w3.filterHTML('#myTable', '.item', this.value)" class="w3-input" placeholder="Szukaj...">
+    </p>
+
+    <div th:switch="${status}">
+        <span th:case="2" class="success">Pomyślnie usunięto badanie</span>
+        <span th:case="3" class="success">Badanie zostało zaktualizowane</span>
+        <span th:case="0" class="failure">Badanie jest zarezerwowane, nie można go usunąć</span>
+    </div>
+    <table id="myTable" class="w3-table-all w3-hoverable">
+        <thead style="cursor: pointer">
+        <tr>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(1)')">Nazwa</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(2)')">Opis</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(3)')">Typ</th>
+            <th>Edytuj</th>
+            <th>Usuń</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="item" th:each="examination: ${list}">
+            <td th:text="${examination.name}"></td>
+            <td th:text="${examination.description}"></td>
+            <td th:text="${examination.examinationTypeName}"></td>
+            <td><a th:href="@{/doctorsPanel/editExamination/{name}(name=${examination.name})}">
+                <button><img src="/icons/edit.png"></button>
+            </a></td>
+            <td><a onclick="return confirm('Czy chcesz usunąć wybrane badanie?')"
+                   th:href="@{/doctorsPanel/deleteExamination/{name}(name=${examination.name})}">
+                <button><img src="/icons/delete.png"></button>
+            </a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

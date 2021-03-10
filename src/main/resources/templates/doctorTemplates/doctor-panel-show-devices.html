@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Panel doktora - lista urządzeń</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/css/mainStylesheet.css">
+    <link rel="stylesheet" href="/css/w3.css">
+
+    <script src="/js/w3.js"></script>
+</head>
+<body>
+
+<div class="sidenav">
+    <a href="/doctorsPanel/addType">Dodaj typ badania</a>
+    <a href="/doctorsPanel/listOfTypes">Lista typów badań</a>
+    <a href="/doctorsPanel/addExamination">Dodaj badanie</a>
+    <a href="/doctorsPanel/listOfExaminations">Lista badań</a>
+    <a href="/doctorsPanel/listOfDevices">Lista urządzeń</a>
+    <a href="/doctorsPanel/addExaminationToDevice">Dodaj badanie do urządzenia</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+<div class="content">
+    <p>
+        <input oninput="w3.filterHTML('#myTable', '.item', this.value)" class="w3-input" placeholder="Szukaj...">
+    </p>
+    <div th:if="${status ==2}">
+        <span class="success">Pomyślnie zaktualizowano badanie</span>
+    </div>
+    <table id="myTable" class="w3-table-all w3-hoverable">
+        <thead style="cursor: pointer; text-align: center">
+        <tr>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(1)')">Nazwa</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(2)')">Model</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(3)')">Data konserwacji</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(4)')">Sala</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(5)')">Status</th>
+            <th>Panel badań</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="item" th:each="device: ${list}">
+            <td th:text="${device.name}"></td>
+            <td th:text="${device.model}"></td>
+            <td th:text="${device.maintenanceDate}"></td>
+            <td th:text="${device.room}"></td>
+            <td th:switch="${device.deviceActivated}">
+                <span th:case="'0'" th:text="Wyłączony"></span>
+                <span th:case="'1'" th:text="Włączony"></span>
+            </td>
+            <td><a th:href="@{/doctorsPanel/examinations/{serialNumber}(serialNumber=${device.serialNumber})}">
+                <button>Badania</button>
+            </a></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <title>Panel recepcjonisty</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/w3.css">
+    <link rel="stylesheet" href="/css/mainStylesheet.css">
+
+    <script src="/js/w3.js"></script>
+    <script src="/js/customScripts.js"></script>
+</head>
+<body>
+
+<div class="sidenav">
+    <a href="/receptionistsPanel/addPatient">Dodaj pacjenta</a>
+    <a href="/receptionistsPanel/listOfPatients">Lista pacjentów</a>
+    <a href="/receptionistsPanel/bookExamination">Zarezerwuj badanie</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+
+<div class="content">
+    <p>
+        <input oninput="w3.filterHTML('#myTable', '.item', this.value)" class="w3-input" placeholder="Szukaj...">
+    </p>
+
+    <div th:switch="${status}">
+        <span th:case="8" class="failure">Wybrany pacjent jest pracownikiem szpitala, tylko administrator może edytować jego dane</span>
+        <span th:case="2" class="success">Pomyślnie zaktualizowano pacjenta</span>
+        <span th:case="6" class="success">Pomyślnie usunięto pacjenta</span>
+        <span th:case="0" class="failure">Pacjent jest zarejestrowany na badania, nie można go usunąć</span>
+    </div>
+    <table id="myTable" class="w3-table-all w3-hoverable" >
+        <thead style="cursor: pointer">
+        <tr>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(1)')" >Imię</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(2)')" >Nazwisko</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(3)')" >PESEL</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(4)')" >Płeć</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(5)')" >Adres</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(6)')" >Pełnomocnik</th>
+            <th>Edytuj</th>
+            <th>Usuń</th>
+            <th>Panel badań</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="item" th:each="patient: ${list}">
+            <td th:text="${patient.name}"></td>
+            <td th:text="${patient.surname}"></td>
+            <td th:text="${patient.pesel}"></td>
+            <td th:text="${patient.sex}"></td>
+            <td th:text="${patient.address}"></td>
+            <td th:text="${patient.plenipotentiary}"></td>
+            <td><a th:href="@{/receptionistsPanel/edit/{pesel}(pesel=${patient.pesel})}"><button><img src="/icons/edit.png" ></button></a></td>
+            <td><a onclick="return confirm('Czy chcesz usunąć wybranego pacjenta?')" th:href="@{/receptionistsPanel/delete/{pesel}(pesel=${patient.pesel})}" ><button><img src="/icons/delete.png" ></button></a></td>
+            <td><a th:href="@{/receptionistsPanel/plannedExaminationsList/{pesel}(pesel=${patient.pesel})}">
+                <button>Lista badań</button></a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

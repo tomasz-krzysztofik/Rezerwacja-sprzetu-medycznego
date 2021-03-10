@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Panel recepcjonisty</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/mainStylesheet.css" type="text/css">
+    <link rel="stylesheet" href="/css/addUserFormStyle.css" type="text/css">
+    v
+</head>
+<body>
+
+<div class="sidenav">
+    <a href="/receptionistsPanel/addPatient">Dodaj pacjenta</a>
+    <a href="/receptionistsPanel/listOfPatients">Lista pacjentów</a>
+    <a href="receptionistsPanel/bookExamination">Zarezerwuj badanie</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+<div class="content">
+    <h3>Edytuj pacjenta</h3>
+    <form action="#" th:action="@{/receptionistsPanel/update/{pesel}(pesel=${patientDTO.pesel})}"
+          th:object="${patientDTO}" method="post">
+        <div class="container">
+
+            <label><b>Imię</b></label>
+            <input type="text" th:field="*{name}" th:required="required" id="name">
+
+            <label><b>Nazwisko</b></label>
+            <input type="text" th:field="*{surname}" th:required="required" id="surname">
+
+            <label>Płeć</label> <select th:field="*{sex}" th:required="required">
+            <option th:value="'Mężczyzna'">Mężczyzna</option>
+            <option th:value="'Kobieta'">Kobieta</option>
+        </select></br>
+            <label><b>Adres</b></label>
+            <input type="text" th:field="*{address}" th:required="required" id="address" >
+            <label><b>Pełnomocnik</b></label>
+            <input type="text" th:field="*{plenipotentiary}"  id="plenipotentary" >
+
+            <button type="submit" class="registerbtn">Dodaj pacjenta</button>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

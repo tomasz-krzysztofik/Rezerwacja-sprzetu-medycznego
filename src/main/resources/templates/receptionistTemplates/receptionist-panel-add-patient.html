@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Panel recepcjonisty</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/mainStylesheet.css" type="text/css">
+    <link rel="stylesheet" href="/css/addUserFormStyle.css" type="text/css">
+    <script src="/js/customScripts.js"></script>
+    <script src="/js/jquery.js"></script>
+
+</head>
+<body>
+
+<div class="sidenav">
+    <a href="/receptionistsPanel/addPatient">Dodaj pacjenta</a>
+    <a href="/receptionistsPanel/listOfPatients">Lista pacjentów</a>
+    <a href="/receptionistsPanel/bookExamination">Zarezerwuj badanie</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+<div class="content">
+    <h3>Dodaj pacjenta</h3>
+    <div th:switch="${status}">
+        <span th:case="0" class="failure">Istnieje pacjent o podanym peselu</span>
+        <span th:case="1" class="success">Pomyślnie dodano pacjenta</span>
+        <span th:case="3" class="failure">Podano błędny pesel</span>
+        <span th:case="9" class="success">Znaleziono pracownika o podanym peselu i dodano go do bazy pacjentów</span>
+    </div>
+    <div>
+        <span class="failure" id="employeeDisagreeWarning" style="display: none">Pracownik nie został dodany do bazy pacjentów</span>
+    </div>
+    <form action="#" id="addPatientForm" th:action="@{/receptionistsPanel/savePatient}" th:object="${patientDTO}"method="post">
+        <div class="container">
+
+            <label><b>Imię</b></label>
+            <input type="text" th:field="*{name}" th:required="required" id="name">
+
+            <label><b>Nazwisko</b></label>
+            <input type="text" th:field="*{surname}" th:required="required" id="surname" >
+
+            <label><b>PESEL</b></label>
+            <input type="number" th:field="*{pesel}" th:required="required" min="01000000000" max="99999999999" maxlength="11" id="pesel" >
+
+
+            <label><b>Płeć</b></label> <select th:field="*{sex}" th:required="required">
+            <option th:value="'Mężczyzna'">Mężczyzna</option>
+            <option th:value="'Kobieta'">Kobieta</option>
+        </select><br/>
+            <label><b>Adres</b></label>
+            <input type="text" th:field="*{address}" th:required="required" id="address" >
+            <label><b>Pełnomocnik</b></label>
+            <input type="text" th:field="*{plenipotentiary}"  id="plenipotentary" >
+
+        </select><br/>
+            <button type="submit" class="registerbtn">Dodaj pacjenta</button>
+        </div>
+
+    </form>
+</div>
+<script>
+    $('#addPatientForm').submit(function (e) {
+        e.preventDefault();
+        let self = this;
+        let url = "/receptionistsPanel/searchEmployee/" + document.getElementById("pesel").value;
+        $.ajax({
+
+            url: url,
+            success:function (result) {
+                if (result === "istnieje"){
+                    if (confirm("Czy chcesz dodać pracownika do bazy pacjentów?")){
+                        document.getElementById("employeeDisagreeWarning").style.display = 'none';
+                        self.submit();}
+                    else
+                        document.getElementById("employeeDisagreeWarning").style.display = "";
+                }
+                else
+                    self.submit();
+            }
+        })
+    })
+</script>
+
+</body>
+</html>

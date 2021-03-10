@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dodaj pracownika</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/mainStylesheet.css" type="text/css">
+    <link rel="stylesheet" href="/css/addUserFormStyle.css" type="text/css">
+    <script src="/js/customScripts.js"></script>
+    <script src="/js/jquery.js"></script>
+</head>
+
+<body>
+
+<div class="sidenav">
+    <a href="/adminsPanel/addEmployee">Dodaj pracownika</a>
+    <a href="/adminsPanel/listOfEmployees">Lista pracowników</a>
+    <a href="/adminsPanel/changePanel">Zmień panel</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+<div class="content">
+    <h3>Dodaj pracownika</h3>
+
+    <div th:switch="${status}">
+        <span th:case="0" class="failure">Istnieje użytkownik o podanym peselu lub loginie</span>
+        <span th:case="1" class="success">Pomyslnie dodano pracownika</span>
+        <span th:case="3" class="success">Pomyslnie dodano pracownika</span>
+        <span th:case="4" class="failure">Istnieje lekarz o podanym numerze pwz</span>
+        <span th:case="5"
+              class="success">Znaleziono pacjenta o podanym peselu, pobrano jego dane i dodano do bazy</span>
+        <span th:case="8" class="failure">Hasło musi posiadać co najmniej 8 znaków, jeden wielki znak, jedną cyfrę i jeden znak specjalny</span>
+    </div>
+    <form action="#" id="addEmployeeForm" th:action="@{/adminsPanel/saveEmployee}" th:object="${employeeDTO}"
+          method="post">
+        <div class="container">
+
+
+            <label><b>Imię</b></label>
+            <input type="text" th:field="*{name}" th:required="required" id="name">
+
+            <label><b>Nazwisko</b></label>
+            <input type="text" th:field="*{surname}" th:required="required" id="surname">
+
+            <label><b>PESEL</b></label>
+            <input type="number" th:field="*{pesel}" th:required="required" th:maxlength="11" min="00100000000"
+                   max="99999999999" id="pesel">
+            <label><b>Stanowisko</b></label>
+            <select id="select" th:field="*{workplace}" th:required="required"
+                    onchange="customScripts.showOrHide()">
+                <option th:value="Administrator">Administrator</option>
+                <option th:value="Rejestrator">Rejestrator</option>
+                <option th:value="Technik">Technik</option>
+                <option th:value="Lekarz">Lekarz</option>
+            </select><br/>
+            <div id="doctorsData" style="display: none">
+                <label><b>PWZ</b></label><input id="doctorsPWZ" type="number" min="1000000" max="9999999"
+                                                th:field="*{pwzNumber}" disabled>
+            </div>
+            <label><b>Login</b></label>
+            <input type="text" th:field="*{login}" th:required="required" id="login">
+
+            <label><b>Hasło</b></label>
+            <input type="password" th:field="*{password}" th:required="required" id="password">
+
+
+            <button type="submit" class="registerbtn">Dodaj pracownika</button>
+        </div>
+
+    </form>
+</div>
+<script>
+    $('#addEmployeeForm').submit(function (e) {
+        e.preventDefault();
+        let self = this;
+        let url = "/adminsPanel/searchPatient/" + document.getElementById("pesel").value;
+        $.ajax({
+
+            url: url,
+            success: function (result) {
+                if (result === "exists") {
+                    if (confirm("Znaleziono pacjenta o takim numerze pesel. Czy chcesz pobrać jego dane i utworzyć pracownika?"))
+                        self.submit();
+
+                } else
+                    self.submit();
+            }
+        })
+    })
+</script>
+</body>
+</html>
+

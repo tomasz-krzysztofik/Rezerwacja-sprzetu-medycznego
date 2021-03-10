@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <title>Lista pracowników</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/css/w3.css">
+    <link rel="stylesheet" href="/css/mainStylesheet.css">
+
+
+    <script src="/js/w3.js"></script>
+    <script src="/js/customScripts.js"></script>
+
+
+</head>
+<body>
+
+<div class="sidenav">
+    <a href="/adminsPanel/addEmployee">Dodaj pracownika</a>
+    <a href="/adminsPanel/listOfEmployees">Lista pracowników</a>
+    <a href="/adminsPanel/changePanel">Zmień panel</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+<div class="content">
+    <p>
+        <input oninput="w3.filterHTML('#myTable', '.item', this.value)" class="w3-input" placeholder="Szukaj...">
+    </p>
+    <div th:switch="${status}">
+        <span th:case="1" class="success">Pomyślnie zaktualizowano pracownika</span>
+        <span th:case="4" class="failure">Istnieje lekarz o podanym numerze pwz</span>
+    </div>
+    <table id="myTable" class="w3-table-all w3-hoverable">
+        <thead style="cursor: pointer">
+        <tr>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(1)')">Imię</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(2)')">Nazwisko</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(3)')">PESEL</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(4)')">Stanowisko</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(5)')">Numer PWZ</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(6)')">Login</th>
+            <th>Edytuj</th>
+            <th>Usuń</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="item" th:each="employee: ${list}">
+            <td th:text="${employee.name}"></td>
+            <td th:text="${employee.surname}"></td>
+            <td th:text="${employee.pesel}"></td>
+            <td th:text="${employee.workplace}"></td>
+            <td th:text="${employee.pwzNumber}"></td>
+            <td th:text="${employee.login}"></td>
+            <td><a th:href="@{/adminsPanel/edit/{pesel}(pesel=${employee.pesel})}">
+                <button><img src="/icons/edit.png"></button>
+            </a></td>
+            <td><a onclick="return confirm('Czy chcesz usunąć wybranego pracownika?')"
+                   th:href="@{/adminsPanel/delete/{pesel}(pesel=${employee.pesel})}">
+                <button><img src="/icons/delete.png"></button>
+            </a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

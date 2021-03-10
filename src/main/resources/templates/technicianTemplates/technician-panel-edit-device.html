@@ -1,0 +1,50 @@
+<!DOCTYPE html >
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Panel technika</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/mainStylesheet.css" type="text/css">
+    <link rel="stylesheet" href="/css/addUserFormStyle.css" type="text/css">
+    <script src="/js/customScripts.js"></script>
+</head>
+<body onload="customScripts.minTime()">
+
+<div class="sidenav">
+    <a href="/techniciansPanel/addDevice">Dodaj urządzenie</a>
+    <a href="/techniciansPanel/listOfDevices">Lista urządzeń</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+<div class="content">
+    <h3>Edytuj urządzenie</h3>
+    <div th:if="${status ==2}">
+        <p>Urządzenie zostało zaktualizowane</p>
+    </div>
+    <form action="#"
+          th:action="@{/techniciansPanel/updateDevice/{serialNumber}(serialNumber=${deviceDTO.serialNumber})}"
+          th:object="${deviceDTO}" method="post">
+        <div class="container">
+            <label>Nazwa </label> <input type="text" th:field="*{name}" th:placeholder="${deviceDTO.name}"
+                                         th:required="required" id="name"><br/>
+            <label>Model </label> <input type="text" th:field="*{model}" th:value="*{model}" th:required="required"
+                                         id="model"><br/>
+            <label>Rok produkcji </label> <input type="number" th:field="*{productionYear}" th:required="required"
+                                                 id="productionYear" min="1960" max="2020"><br/>
+            <label>Producent </label> <input type="text" th:field="*{producer}" th:required="required"
+                                             id="producer"><br/>
+            <label>Główny serwis </label> <input type="text" th:field="*{mainService}" th:required="required"
+                                                 id="mainService"><br/>
+            <label>Data instalacji </label><br> <input type="date" th:field="*{installationDate}" th:required="required"
+                                                       id="installationDate"><br/>
+            <label>Data następnego przeglądu </label><br> <input type="date" th:field="*{maintenanceDate}"
+                                                                 th:required="required" id="maintenanceDate"><br/>
+            <label>Sala</label><br><input type="text" th:field="*{room}" th:required="required" id="room">
+            <button type="submit" class="registerbtn">Edytuj urządzenie</button>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Panel recepcjonisty</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/mainStylesheet.css" type="text/css">
+    <link rel="stylesheet" href="/css/addUserFormStyle.css" type="text/css">
+    <script src="/js/customScripts.js"></script>
+    <script src="/js/jquery.js"></script>
+</head>
+<body onload="customScripts.startReceptionist()">
+
+<div class="sidenav">
+    <a href="/receptionistsPanel/addPatient">Dodaj pacjenta</a>
+    <a href="/receptionistsPanel/listOfPatients">Lista pacjentów</a>
+    <a href="/receptionistsPanel/bookExamination">Zarezerwuj badanie</a>
+    <a href="/logout">Wyloguj</a>
+
+</div>
+
+<div class="content">
+    <p><b>Zapisz pacjenta na badanie</b></p>
+    <form action="#" th:action="@{/receptionistsPanel/showFreeDates}" th:object="${plannedExaminationDataObject}"
+          method="get" target="iframe">
+
+        <label><b>PESEL</b></label><input type="number" th:field="*{pesel}" th:required="required" min="01000000000"
+                                          max="99999999999" id="pesel">
+        <label id="typeLabel"><b>Typ</b></label>
+        <select id="typeSelect" onchange="customScripts.showExaminations('receptionist')" th:required="required">
+            <option th:each="typeName : ${list}" th:value="${typeName}" th:text="${typeName}"></option>
+        </select><br/>
+        <label id="examinationLabel"><b>Badanie</b></label>
+        <select id="selectExamination" th:field="*{examinationName}" th:required="required">
+            <input id="submitButton" th:onclick="customScripts.hideSubmit()" type="submit" class="add"
+                   value="Pokaz wolne terminy">
+        </select><br/>
+    </form>
+    <button onclick="customScripts.checkPatient()">Wyszukaj pacjenta</button>
+
+    <div style="text-align: center">
+        <br/>
+        <span id="patientData">
+
+        </span>
+    </div>
+    <div class="freeDatesWindow">
+        <iframe class="mainFrame" id="iframe" name="iframe">
+
+
+        </iframe>
+    </div>
+</div>
+
+</body>
+</html>

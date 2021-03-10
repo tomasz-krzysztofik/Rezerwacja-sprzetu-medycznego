@@ -1,0 +1,1 @@
+INSERT INTO employee values (1, 'root', 'root', '$2a$10$06PfjZFPmMeJJ8Z0SE.Otu3w/6IXPK8FemrxsCErxnbrl4p3iTTsO', '12312312312', 'ADMIN', 'root', 'ADMIN')

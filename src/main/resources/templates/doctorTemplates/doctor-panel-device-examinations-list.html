@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <title>Lista typów</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/css/mainStylesheet.css">
+    <link rel="stylesheet" href="/css/w3.css">
+
+    <script src="/js/w3.js"></script>
+    <script src="/js/customScripts.js"></script>
+
+
+</head>
+<body>
+
+<div class="sidenav">
+    <a href="/doctorsPanel/addType">Dodaj typ badania</a>
+    <a href="/doctorsPanel/listOfTypes">Lista typów badań</a>
+    <a href="/doctorsPanel/addExamination">Dodaj badanie</a>
+    <a href="/doctorsPanel/listOfExaminations">Lista badań</a>
+    <a href="/doctorsPanel/listOfDevices">Lista urządzeń</a>
+    <a href="/doctorsPanel/addExaminationToDevice">Dodaj badanie do urządzenia</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+<div class="content">
+
+    <div th:switch="${status}">
+        <span th:case="6" class="success">Pomyślnie usunięto badanie</span>
+        <span th:case="0" class="failure">Badanie jest zarezerwowane, nie można go usunąć</span>
+    </div>
+    <p>
+        <input oninput="w3.filterHTML('#myTable', '.item', this.value)" class="w3-input" placeholder="Szukaj...">
+    </p>
+
+    <table id="myTable" class="w3-table-all w3-hoverable" >
+        <thead style="cursor: pointer">
+        <tr>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(1)')" >Nazwa</th>
+            <th>Usuń badanie</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="item" th:each="examination: ${list}">
+            <td th:text="${examination.name}"></td>
+            <td><a onclick="return confirm('Czy chcesz usunąć wybrany obiekt?')" th:href="@{/doctorsPanel/deleteExaminationFromDevice/{name}(name=${examination.name})}" ><button><img src="/icons/delete.png" ></button></a></td>
+        </tr><br>
+
+        </tbody>
+    </table>
+    <a th:href="@{/doctorsPanel/listOfDevices}"><button class="back">Powrót</button></a>
+</div>
+</body>
+</html>

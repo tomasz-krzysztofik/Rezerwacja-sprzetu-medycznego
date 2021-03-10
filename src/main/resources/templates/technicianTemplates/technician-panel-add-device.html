@@ -1,0 +1,51 @@
+<!DOCTYPE html >
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Panel technika</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/mainStylesheet.css" type="text/css">
+    <link rel="stylesheet" href="/css/addUserFormStyle.css" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="/js/customScripts.js"></script>
+</head>
+
+
+<body onload="customScripts.minTime()">
+
+<div class="sidenav">
+    <a href="/techniciansPanel/addDevice">Dodaj urządzenie</a>
+    <a href="/techniciansPanel/listOfDevices">Lista urządzeń</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+<div class="content">
+    <h3>Dodaj Urządzenie</h3>
+    <div th:switch="${status}">
+        <span th:case="0" class="failure">Istnieje urządzenie o podanym numerze seryjnym</span>
+        <span th:case="1" class="success">Pomyślnie dodano urządzenie</span>
+
+    </div>
+    <form action="#" th:action="@{/techniciansPanel/saveDevice}" th:object="${deviceDTO}"method="post">
+        <div class="container">
+            <label>Nazwa  </label> <input type="text" th:field="*{name}" th:required="required" id="name"><br/>
+            <label>Model  </label> <input type="text" th:field="*{model}" th:required="required" id="model"><br/>
+            <label>Rok produkcji  </label> <input type="number" th:field="*{productionYear}" th:required="required" id="productionYear" min="1960" max="2020"><br/>
+            <label>Producent  </label> <input type="text" th:field="*{producer}" th:required="required" id="producer"><br/>
+            <label>Numer seryjny  </label> <input type="text" th:field="*{serialNumber}" th:required="required" id="serialNumber" minlength="15" , maxlength="15"><br/>
+            <label>Główny serwis  </label> <input type="text" th:field="*{mainService}" th:required="required" id="mainService"><br/>
+            <label>Data instalacji  </label><br> <input type="date" th:field="*{installationDate}" th:required="required" id="installationDate" ><br/>
+            <label>Data następnego przeglądu  </label><br> <input type="date" th:field="*{maintenanceDate}" th:required="required" id="maintenanceDate"><br/>
+            <label>Sala</label><br><input type="text" th:field="*{room}" th:required="required" id="room">
+            <label>Status</label> <select th:field="*{deviceActivated}" th:required="required">
+            <option th:value="'1'">Włączony</option>
+            <option th:value="'0'">Wyłączony</option>
+        </select><br/>
+            <button type="submit" class="registerbtn">Dodaj urządzenie</button>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

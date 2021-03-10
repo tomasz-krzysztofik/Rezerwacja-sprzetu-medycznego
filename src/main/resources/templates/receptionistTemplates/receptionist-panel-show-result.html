@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/css/mainStylesheet.css" type="text/css">
+</head>
+<body>
+<div th:switch="${status}">
+    <span th:case="0" class="failure">Brak pacjenta</span>
+    <span th:case="1" class="failure">Badanie nie zostało znalezione</span>
+    <span th:case="2" class="failure">Urządzenie nie zostało znalezione</span>
+    <span th:case="3" class="failure">Termin badania został zarezerwowany przez innego użytkownika, należy wybrać inny termin</span>
+    <span th:case="4" class="failure">Wybrany termin już minął, należy wybrać inny termin</span>
+    <span th:case="5" class="success">Poprawnie zarezerwowano badanie</span>
+</div>
+</body>
+</html>

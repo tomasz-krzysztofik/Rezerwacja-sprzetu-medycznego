@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Panel lekarza</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/mainStylesheet.css" type="text/css">
+    <link rel="stylesheet" href="/css/addUserFormStyle.css" type="text/css">
+    <script src="/js/customScripts.js"></script>
+    <script src="/js/jquery.js"></script>
+</head>
+<body onload="customScripts.showExaminations('doctor')">
+
+
+<div class="sidenav">
+    <a href="/doctorsPanel/addType">Dodaj typ badania</a>
+    <a href="/doctorsPanel/listOfTypes">Lista typów badań</a>
+    <a href="/doctorsPanel/addExamination">Dodaj badanie</a>
+    <a href="/doctorsPanel/listOfExaminations">Lista badań</a>
+    <a href="/doctorsPanel/listOfDevices">Lista urządzeń</a>
+    <a href="/doctorsPanel/addExaminationToDevice">Dodaj badanie do urządzenia</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+<div class="content">
+    <div th:switch="${status}">
+        <span th:case="0" class="failure">Badanie jest już dodane do urządzenia</span>
+        <span th:case="1" class="success">Pomyślnie dodano badanie</span>
+    </div>
+    <p><b>Dodaj badanie do urządzenia</b></p>
+    <form action="#" th:action="@{/doctorsPanel/postExaminationToDevice}" th:object="${examinationDTO}" method="post">
+        <label id="typeLabel"><b>Typ</b></label>
+        <select id="typeSelect" onchange="customScripts.showExaminations('doctor')" th:required="required">
+            <option th:each="typeDto : ${list}" th:value="${typeDto.name}" th:text="${typeDto.name}"></option>
+        </select><br/>
+        <label id="examinationLabel"><b>Badanie</b></label>
+        <select id="selectExamination" th:field="*{name}" th:required="required">
+
+        </select><br/>
+        <label><b>Urządzenie</b></label>
+        <select id="selectDevice" th:field="*{chosenDevice}" th:required="required">
+            <option th:each="deviceDTO : ${deviceList}" th:value="${deviceDTO.serialNumber}"
+                    th:text="${deviceDTO.data}"></option>
+        </select><br/>
+        <input type="submit" class="add" value="Dodaj badanie">
+    </form>
+</div>
+
+</body>
+
+
+</html>

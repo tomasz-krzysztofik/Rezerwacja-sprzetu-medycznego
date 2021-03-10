@@ -1,0 +1,87 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the side navigation */
+.sidenav {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: grey;
+    overflow-x: hidden;
+}
+
+
+/* Side navigation links */
+.sidenav a {
+    color: white;
+    padding: 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color on hover */
+.sidenav a:hover {
+    background-color: darkslategrey;
+    color: white;
+}
+
+/* Style the content */
+.content {
+    margin-left: 200px;
+margin-right: 20px;
+padding-left: 20px;
+
+}
+
+img {
+  width: 20px;
+    height: 20px;
+}
+
+.add{
+    float: right;
+}
+.back{
+float: left;
+
+}
+.mainFrame{
+
+    border: none;
+    width: 100%;
+    height: 50vh;
+}
+
+div span.success{
+    background-color: lawngreen;
+}
+
+div span.failure{
+    background-color: #ff0000;
+    color: white;
+}
+.frame{
+    overflow-y: auto;
+    height: 80vh;
+
+}
+thead th{
+    position: sticky;
+    top: 0;
+
+}
+
+table  { border-collapse: collapse; width: 100%; }
+
+th     { background:#eee;
+
+}

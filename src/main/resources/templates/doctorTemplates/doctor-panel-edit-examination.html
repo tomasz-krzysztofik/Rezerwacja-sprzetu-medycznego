@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Panel lekarza</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/mainStylesheet.css" type="text/css">
+    <link rel="stylesheet" href="/css/addUserFormStyle.css" type="text/css">
+</head>
+<body>
+
+<div class="sidenav">
+    <a href="/doctorsPanel/addType">Dodaj typ badania</a>
+    <a href="/doctorsPanel/listOfTypes">Lista typów badań</a>
+    <a href="/doctorsPanel/addExamination">Dodaj badanie</a>
+    <a href="/doctorsPanel/listOfExaminations">Lista badań</a>
+    <a href="/doctorsPanel/listOfDevices">Lista urządzeń</a>
+    <a href="/doctorsPanel/addExaminationToDevice">Dodaj badanie do urządzenia</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+<div class="content">
+    <h3>Edytuj badanie</h3>
+    <form action="#" th:action="@{/doctorsPanel/updateExamination/{name}(name=${examinationDTO.name})}" th:object="${examinationDTO}"method="post">
+        <div class="container">
+            <hr>
+
+            <label><b>Opis</b></label>
+            <input type="text" th:field="*{description}"  id="description" >
+
+            <label><b>Typ</b></label>
+            <select id="select" th:field="*{examinationTypeDto}"  th:required="required">
+                <option th:each="typeDto : ${typesDTO}" th:value="${typeDto.name}" th:text="${typeDto.name}"></option>
+            </select><br/>
+
+
+            <button type="submit" class="registerbtn">Dodaj typ badania</button>
+
+
+        </div>
+    </form>
+</div>
+</body>
+</html>

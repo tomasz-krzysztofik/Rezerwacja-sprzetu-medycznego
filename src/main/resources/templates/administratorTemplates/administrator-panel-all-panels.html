@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <title>Panele użytkowników</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/w3.css">
+    <link rel="stylesheet" href="/css/mainStylesheet.css">
+    <script src="/js/w3.js"></script>
+    <script src="/js/customScripts.js"></script>
+    <link rel="stylesheet" href="/css/adminsPanel.css">
+</head>
+<body>
+
+<div class="sidenav">
+    <a href="/adminsPanel/addEmployee">Dodaj pracownika</a>
+    <a href="/adminsPanel/listOfEmployees">Lista pracowników</a>
+    <a href="/adminsPanel/changePanel">Zmień panel</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+<div class="content">
+    <div class="topnav">
+        <a href="/receptionistsPanel" target="iframe">Panel recepcjonisty</a>
+        <a href="/doctorsPanel" target="iframe">Panel lekarza</a>
+        <a href="/techniciansPanel" target="iframe">Panel technika</a>
+    </div>
+
+    <div class="chosenPanel">
+        <iframe class="chosenPanel" id="iframe" name="iframe">
+
+
+        </iframe>
+    </div>
+</div>
+</body>
+</html>

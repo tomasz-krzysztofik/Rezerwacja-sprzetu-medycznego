@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" style="overflow: hidden">
+<head>
+    <title>Wybierz termin badania</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/w3.css">
+    <link rel="stylesheet" href="/css/mainStylesheet.css">
+
+    <script src="/js/w3.js"></script>
+    <script src="/js/customScripts.js"></script>
+</head>
+<body>
+
+
+        <div class="search">
+            <p>
+                <input oninput="w3.filterHTML('#myTable', '.item', this.value)" class="w3-input" placeholder="Szukaj...">
+            </p>
+        </div>
+        <div class="frame">
+            <table id="myTable" class="w3-table-all w3-hoverable ">
+                <thead>
+                <tr>
+                    <th>Nazwa urządzenia</th>
+                    <th>Sala</th>
+                    <th>Termin</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr class="item" th:each="ex, iterStat: ${list}">
+                    <form action="#"
+                          th:action="@{/receptionistsPanel/saveExaminationToPatientAndDevice/{chosenIndex}(chosenIndex=${iterStat.index})}"
+                          method="post">
+                        <td th:text="${ex.getDeviceDTO().getName()}"></td>
+                        <td th:text="${ex.getDeviceDTO().getRoom()}"></td>
+                        <td th:text="${#temporals.format(ex.getDateTimeStart(), 'dd/MM/yyyy HH:mm')}"></td>
+                        <td>
+                            <button type="submit">Wybierz termin</button>
+                        </td>
+
+                    </form>
+                </tr>
+
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

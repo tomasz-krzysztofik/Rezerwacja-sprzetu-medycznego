@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista typów</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/css/mainStylesheet.css">
+    <link rel="stylesheet" href="/css/w3.css">
+
+    <script src="/js/w3.js"></script>
+    <script src="/js/customScripts.js"></script>
+
+
+</head>
+<body>
+
+<div class="sidenav">
+    <a href="/techniciansPanel/addDevice">Dodaj urządzenie</a>
+    <a href="/techniciansPanel/listOfDevices">Lista urządzeń</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+<div class="content">
+    <p>
+        <input oninput="w3.filterHTML('#myTable', '.item', this.value)" class="w3-input" placeholder="Szukaj...">
+    </p>
+    <div th:switch="${status}">
+        <span th:case="0"
+              class="failure">Do urządzenia są przypisane zaplanowane badania, nie można go usunąć/wyłączyć</span>
+        <span th:case="1"
+              class="failure">Urządzenie nie zostało znalezione</span>
+        <span th:case="2" class="success">Pomyślnie zaktualizowano urządzenie</span>
+        <span th:case="6" class="success">Pomyślnie usunięto urządzenie</span>
+        <span th:case="7" class="success">Włączono urządzenie</span>
+        <span th:case="8" class="failure">Wyłączono urządzenie</span>
+    </div>
+    <table id="myTable" class="w3-table-all w3-hoverable">
+        <thead style="cursor: pointer; text-align: center">
+        <tr>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(1)')">Nazwa</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(2)')">Model</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(3)')">Rok produkcji</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(4)')">Producent</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(5)')">Numer seryjny</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(6)')">Serwis główny</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(7)')">Data instalacji</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(8)')">Data konserwacji</th>
+            <th onclick="w3.sortHTML('#myTable','.item', 'td:nth-child(9)')">Sala</th>
+            <th>Status</th>
+            <th>Edytuj</th>
+            <th>Usuń</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="item" th:each="device: ${list}">
+            <td th:text="${device.name}"></td>
+            <td th:text="${device.model}"></td>
+            <td th:text="${device.productionYear}"></td>
+            <td th:text="${device.producer}"></td>
+            <td th:text="${device.serialNumber}"></td>
+            <td th:text="${device.mainService}"></td>
+            <td th:text="${device.installationDate}"></td>
+            <td th:text="${device.maintenanceDate}"></td>
+            <td th:text="${device.room}"></td>
+            <td th:switch="${device.deviceActivated}">
+                <span th:case="'0'"><a
+                        th:href="@{/techniciansPanel/changeStatus/{serialNumber}(serialNumber=${device.serialNumber})}"><button><img
+                        src="/icons/power-off.png"></button></a></span>
+                <span th:case="'1'"><a
+                        th:href="@{/techniciansPanel/changeStatus/{serialNumber}(serialNumber=${device.serialNumber})}"><button><img
+                        src="/icons/power-on.png"></button></a></span>
+            </td>
+            <td><a th:href="@{/techniciansPanel/editDevice/{serialNumber}(serialNumber=${device.serialNumber})}">
+                <button><img src="/icons/edit.png"></button>
+            </a></td>
+            <td><a onclick="return confirm('Czy chcesz usunąć wybrane urządzenie?')"
+                   th:href="@{/techniciansPanel/deleteDevice/{serialNumber}(serialNumber=${device.serialNumber})}">
+                <button><img src="/icons/delete.png"></button>
+            </a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

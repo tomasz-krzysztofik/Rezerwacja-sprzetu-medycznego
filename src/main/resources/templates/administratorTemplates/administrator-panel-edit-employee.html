@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dodaj pracownika</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/mainStylesheet.css" type="text/css">
+    <link rel="stylesheet" href="/css/addUserFormStyle.css" type="text/css">
+    <script src="/js/customScripts.js"></script>
+</head>
+
+<body onload="customScripts.showOrHide()">
+
+<div class="sidenav">
+    <a href="/adminsPanel/addEmployee">Dodaj pracownika</a>
+    <a href="/adminsPanel/listOfEmployees">Lista pracowników</a>
+    <a href="/adminsPanel/changePanel">Zmień panel</a>
+    <a href="/logout">Wyloguj</a>
+</div>
+
+<div class="content">
+    <h3>Edytuj pracownika</h3>
+
+    <form action="#" th:action="@{/adminsPanel/update/{pesel}(pesel=${employeeDTO.pesel})}" th:object="${employeeDTO}"
+          method="post">
+        <div class="container">
+            <hr>
+
+            <label><b>Imię</b></label>
+            <input type="text" th:field="*{name}" th:required="required" id="name">
+
+            <label><b>Nazwisko</b></label>
+            <input type="text" th:field="*{surname}" th:required="required" id="surname">
+            <label><b>Stanowisko</b> </label>
+            <select id="select" th:field="*{workplace}" th:required="required" onchange="customScripts.showOrHide()">
+                <option th:value="Administrator">Administrator</option>
+                <option th:value="Rejestrator">Rejestrator</option>
+                <option th:value="Technik">Technik</option>
+                <option th:value="Lekarz">Lekarz</option>
+            </select><br/>
+            <div id="doctorsData" style="display: none">
+                <label><b>PWZ</b></label><input id="doctorsPWZ" type="number" min="1000000" max="9999999"
+                                                th:field="*{pwzNumber}" disabled>
+            </div>
+            <label><b>Hasło</b></label>
+            <input type="password" th:field="*{password}" th:required="required" id="password">
+            <hr>
+            <button type="submit" class="registerbtn">Aktualizuj pracownika</button>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>
+

@@ -30,6 +30,7 @@
         <span th:case="5"
               class="success">Znaleziono pacjenta o podanym peselu, pobrano jego dane i dodano do bazy</span>
         <span th:case="8" class="failure">Hasło musi posiadać co najmniej 8 znaków, jeden wielki znak, jedną cyfrę i jeden znak specjalny</span>
+        <span th:case="9" class="failure">Podany numer pesel jest nieprawidłowy</span>
     </div>
     <form action="#" id="addEmployeeForm" th:action="@{/adminsPanel/saveEmployee}" th:object="${employeeDTO}"
           method="post">

@@ -1,1 +1,4 @@
 INSERT INTO employee values (1, 'root', 'root', '$2a$10$06PfjZFPmMeJJ8Z0SE.Otu3w/6IXPK8FemrxsCErxnbrl4p3iTTsO', '12312312312', 'ADMIN', 'root', 'ADMIN')
+INSERT INTO employee values(2, 'receptionist', 'receptionist', '$2a$10$w.CjM0cNCqSy8DiWaBU5g.oKNd3.j9dpIV7Ptp6vjOXzi.3X7ULDq', '12312312313', 'RECEPTIONIST', 'receptionist', 'RECEPTIONIST')
+INSERT INTO employee values(3, 'technician', 'technician', '$2a$10$j/SfTTeyuDFNtabGAMSDYeJlTFs0mi1KxSDS/vWTtVnLk.YgSsnPy', '12312312314', 'TECHNICIAN', 'technician', 'TECHNICIAN')
+INSERT INTO employee values(4, 'doctor', 'doctor', '$2a$10$n0S9qri2lrN9Q2l3vkRVv.LBN026QkpZzFKHSoyucUFIEmfJIr4n2', '12312312315', 'DOCTOR', 'doctor', 'DOCTOR' )
